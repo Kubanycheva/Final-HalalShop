@@ -1,12 +1,33 @@
-from datetime import timedelta
-
+from django.core.mail import send_mail
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from phonenumber_field.modelfields import PhoneNumberField
+from django.dispatch import receiver
+from django.urls import reverse
+from django_rest_passwordreset.signals import reset_password_token_created
+
+
+@receiver(reset_password_token_created)
+def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
+    email_plaintext_message = "{}?token={}".format(
+        reverse('password_reset:reset-password-request'),
+        reset_password_token.key
+    )
+
+    send_mail(
+        # Subject
+        "Password Reset for {title}".format(title="Some website title"),
+        # Message
+        email_plaintext_message,
+        # From email
+        "noreply@somehost.local",
+        # Recipient list
+        [reset_password_token.user.email]
+    )
 
 
 class UserProfile(AbstractUser):
-    phone_number = PhoneNumberField(null=True, blank=True)
+    phone_number = PhoneNumberField()
 
     def __str__(self):
         return self.username
@@ -119,7 +140,7 @@ class FishProduct(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.fish_name} ({self.category.get_full_category_name()})"
+        return self.fish_name
 
     class Meta:
         verbose_name_plural = 'Рыба и морепродукты'
@@ -132,7 +153,7 @@ class FrozenProduct(models.Model):
     price = models.PositiveIntegerField(default=0)
     frozen_date = models.DateField()
     image = models.ImageField(upload_to='frozen_images/', null=True, blank=True)
-    weight = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='вес')
+    weight = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='вес', null=True, blank=True)
     created_date = models.DateField(auto_now=True)
 
     def __str__(self):
@@ -148,7 +169,7 @@ class Dairy(models.Model):
     image = models.ImageField(upload_to='dairy_image')
     price = models.PositiveIntegerField()
     description = models.TextField()
-    weight = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='вес')
+    weight = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='вес', null=True, blank=True)
     expiration_date = models.DateField(verbose_name='срока годности')
     created_date = models.DateField(auto_now=True)
 
@@ -165,7 +186,7 @@ class BakeryProduct(models.Model):
     image = models.ImageField(upload_to='image_bakery')
     description = models.TextField()
     price = models.PositiveIntegerField(default=0)
-    weight = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='вес')
+    weight = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='вес', null=True, blank=True)
     expiration_date = models.DateField(verbose_name='срока годности')
     created_date = models.DateField(auto_now=True)
 
@@ -182,7 +203,7 @@ class ConfectioneryProduct(models.Model):
     image = models.ImageField(upload_to='image_cake')
     description = models.TextField()
     price = models.PositiveIntegerField(default=0)
-    weight = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='вес')
+    weight = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='вес', null=True, blank=True)
     expiration_date = models.DateField(verbose_name='срока годности')
     created_date = models.DateField(auto_now=True)
 
@@ -199,7 +220,7 @@ class ReadyMeal(models.Model):
     image = models.ImageField(upload_to='image_ready')
     description = models.TextField()
     price = models.PositiveIntegerField(default=0)
-    weight = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='вес')
+    weight = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='вес', null=True, blank=True)
     expiration_date = models.DateField(verbose_name='срока годности')
     created_date = models.DateField(auto_now=True)
 
@@ -216,7 +237,7 @@ class GrocerProduct(models.Model):
     image = models.ImageField(upload_to='image_grocery')
     description = models.TextField()
     price = models.PositiveIntegerField(default=0)
-    weight = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='вес')
+    weight = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='вес', null=True, blank=True)
     expiration_date = models.DateField(verbose_name='срока годности')
     created_date = models.DateField(auto_now=True)
 
