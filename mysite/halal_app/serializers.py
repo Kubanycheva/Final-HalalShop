@@ -59,7 +59,7 @@ class VerifyResetCodeSerializer(serializers.Serializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ('email', 'password', 'first_name', 'last_name', 'phone_number',
+        fields = ('email', 'password', 'phone_number',
                   'username')
         extra_kwargs = {'password': {'write_only': True}}
 
