@@ -108,105 +108,202 @@ class BuyerSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'phone_number']
 
 
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = '__all__'
-
-
 class MeatsProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = MeatsProduct
-        fields = '__all__'
+        fields = ['id', 'meets_name']
+
+
+class MeatsProductCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MeatsProduct
+        fields = ['id', 'meets_name', 'price', 'weight' ]
 
 
 class BirdProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = BirdProduct
-        fields = '__all__'
+        fields = ['id', 'bird_name']
+
+
+class BirdProductCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BirdProduct
+        fields = ['id', 'bird_name', 'weight',
+                  'price', 'image']
 
 
 class FishProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = FishProduct
-        fields = '__all__'
+        fields = ['id', 'fish_name']
+
+
+class FishProductCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FishProduct
+        fields = ['id', 'fish_name', 'weight',
+                   'price', 'image']
 
 
 class FrozenProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = FrozenProduct
-        fields = '__all__'
+        fields = ['id', 'frozen_name']
+
+
+class FrozenProductCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FrozenProduct
+        fields = ['id', 'frozen_name', 'image', 'price', 'weight']
 
 
 class DairySerializer(serializers.ModelSerializer):
     class Meta:
         model = Dairy
-        fields = '__all__'
+        fields = ['id', 'dairy_name']
+
+
+class DairyCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Dairy
+        fields = ['id', 'dairy_name', 'image', 'price', 'weight']
 
 
 class BakeryProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = BakeryProduct
-        fields = '__all__'
+        fields = ['id', 'bakery_name']
+
+
+class BakeryProductCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BakeryProduct
+        fields = ['id', 'bakery_name', 'image', 'price', 'weight']
 
 
 class ConfectioneryProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = ConfectioneryProduct
-        fields = '__all__'
+        fields = ['id', 'product_name']
+
+
+class ConfectioneryProductCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ConfectioneryProduct
+        fields = ['id', 'product_name', 'image', 'price', 'weight']
 
 
 class ReadyMealSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReadyMeal
-        fields = '__all__'
+        fields = ['id', 'meal_name']
+
+
+class ReadyMealCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReadyMeal
+        fields = ['id', 'meal_name', 'image', 'price', 'weight']
 
 
 class GrocerProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = GrocerProduct
-        fields = '__all__'
+        fields = ['id', 'grocer_name']
+
+
+class GrocerProductCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GrocerProduct
+        fields = ['id', 'grocer_name', 'image', 'price', 'weight']
 
 
 class DrinkProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = DrinkProduct
-        fields = '__all__'
+        fields = ['id', 'drink_name']
+
+
+class DrinkProductCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DrinkProduct
+        fields = ['id', 'drink_name', 'image', 'price', 'weight']
 
 
 class BabyProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = BabyProduct
-        fields = '__all__'
+        fields = ['id', 'product_name']
+
+
+class BabyProductCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BabyProduct
+        fields = ['id', 'product_name', 'weight', 'price', 'image']
 
 
 class HomeProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = HomeProduct
-        fields = '__all__'
+        fields = ['id', 'home_name']
+
+
+class HomeProductCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HomeProduct
+        fields = ['id', 'home_name', 'weight', 'price', 'image']
 
 
 class HealthBeautySerializer(serializers.ModelSerializer):
     class Meta:
         model = HealthBeauty
-        fields = '__all__'
+        fields = ['id', 'product_name']
+
+
+class HealthBeautyCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HealthBeauty
+        fields = ['id', 'product_name', 'weight', 'price', 'image']
 
 
 class VitaminsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vitamins
-        fields = '__all__'
+        fields = ['id', 'product_name']
+
+
+class VitaminsCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vitamins
+        fields = ['id', 'product_name', 'weight', 'price', 'image']
 
 
 class PharmaceuticalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pharmaceutical
-        fields = '__all__'
+        fields = ['id', 'product_name']
 
 
+class PharmaceuticalCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Pharmaceutical
+        fields = ['id', 'product_name', 'weight', 'price', 'image']
 
 
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['id', 'category_name']
 
+
+class CategoryDetailSerializer(serializers.ModelSerializer):
+    baby_category = BabyProductSerializer(many=True, read_only=True)
+    category_meats = MeatsProductSerializer(many=True, read_only=True)
+    bird_eggs = BirdProductSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Category
+        fields = ['category_name', 'baby_category', 'category_meats', 'bird_eggs']
 
 
 

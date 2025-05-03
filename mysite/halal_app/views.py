@@ -94,14 +94,14 @@ class BuyerViewSet(viewsets.ModelViewSet):
     serializer_class = BuyerSerializer
 
 
-class CategoryViewSet(viewsets.ModelViewSet):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
-
-
 class MeatsProductViewSet(viewsets.ModelViewSet):
     queryset = MeatsProduct.objects.all()
     serializer_class = MeatsProductSerializer
+
+
+class MeatsProductDetailAPIVIew(generics.RetrieveAPIView):
+    queryset = MeatsProduct.objects.all()
+    serializer_class = MeatsProductCardSerializer
 
 
 class BirdProductViewSet(viewsets.ModelViewSet):
@@ -109,9 +109,19 @@ class BirdProductViewSet(viewsets.ModelViewSet):
     serializer_class = BirdProductSerializer
 
 
+class BirdProductDetailAPIVIew(generics.RetrieveAPIView):
+    queryset = BirdProduct.objects.all()
+    serializer_class = BirdProductCardSerializer
+
+
 class FishProductViewSet(viewsets.ModelViewSet):
     queryset = FishProduct.objects.all()
     serializer_class = FishProductSerializer
+
+
+class FishProductDetailAPIView(generics.RetrieveAPIView):
+    queryset = FishProduct.objects.all()
+    serializer_class = FishProductCardSerializer
 
 
 class FrozenProductViewSet(viewsets.ModelViewSet):
@@ -119,9 +129,19 @@ class FrozenProductViewSet(viewsets.ModelViewSet):
     serializer_class = FrozenProductSerializer
 
 
+class FrozenProductDetailAPIView(generics.RetrieveAPIView):
+    queryset = FrozenProduct.objects.all()
+    serializer_class = FrozenProductCardSerializer
+
+
 class DairyViewSet(viewsets.ModelViewSet):
     queryset = Dairy.objects.all()
     serializer_class = DairySerializer
+
+
+class DairyDetailAPIView(generics.RetrieveAPIView):
+    queryset = Dairy.objects.all()
+    serializer_class = DairyCardSerializer
 
 
 class BakeryProductViewSet(viewsets.ModelViewSet):
@@ -129,9 +149,19 @@ class BakeryProductViewSet(viewsets.ModelViewSet):
     serializer_class = BakeryProductSerializer
 
 
+class BakeryProductDetailAPIView(generics.RetrieveAPIView):
+    queryset = BakeryProduct.objects.all()
+    serializer_class = BakeryProductCardSerializer
+
+
 class ConfectioneryProductViewSet(viewsets.ModelViewSet):
     queryset = ConfectioneryProduct.objects.all()
     serializer_class = ConfectioneryProductSerializer
+
+
+class ConfectioneryProductDetailAPIView(generics.RetrieveAPIView):
+    queryset = ConfectioneryProduct.objects.all()
+    serializer_class = ConfectioneryProductCardSerializer
 
 
 class ReadyMealViewSet(viewsets.ModelViewSet):
@@ -139,9 +169,19 @@ class ReadyMealViewSet(viewsets.ModelViewSet):
     serializer_class = ReadyMealSerializer
 
 
+class ReadyMealDetailAPIView(generics.RetrieveAPIView):
+    queryset = ReadyMeal.objects.all()
+    serializer_class = ReadyMealCardSerializer
+
+
 class GrocerProductViewSet(viewsets.ModelViewSet):
     queryset = GrocerProduct.objects.all()
     serializer_class = GrocerProductSerializer
+
+
+class GrocerDetailAPIView(generics.RetrieveAPIView):
+    queryset = GrocerProduct.objects.all()
+    serializer_class = GrocerProductCardSerializer
 
 
 class DrinkProductViewSet(viewsets.ModelViewSet):
@@ -149,9 +189,19 @@ class DrinkProductViewSet(viewsets.ModelViewSet):
     serializer_class = DrinkProductSerializer
 
 
+class DrinkProductDetailAPIView(generics.RetrieveAPIView):
+    queryset = DrinkProduct.objects.all()
+    serializer_class = DrinkProductCardSerializer
+
+
 class BabyProductViewSet(viewsets.ModelViewSet):
     queryset = BabyProduct.objects.all()
     serializer_class = BabyProductSerializer
+
+
+class BabyProductDetailAPIVIew(generics.RetrieveAPIView):
+    queryset = BabyProduct.objects.all()
+    serializer_class = BabyProductCardSerializer
 
 
 class HomeProductViewSet(viewsets.ModelViewSet):
@@ -159,9 +209,19 @@ class HomeProductViewSet(viewsets.ModelViewSet):
     serializer_class = HomeProductSerializer
 
 
+class HomeProductDetailAPIVIew(generics.RetrieveAPIView):
+    queryset = HomeProduct.objects.all()
+    serializer_class = HomeProductCardSerializer
+
+
 class HealthBeautyViewSet(viewsets.ModelViewSet):
     queryset = HealthBeauty.objects.all()
     serializer_class = HealthBeautySerializer
+
+
+class HealthBeautyDetailAPIVIew(generics.RetrieveAPIView):
+    queryset = HealthBeauty.objects.all()
+    serializer_class = HealthBeautyCardSerializer
 
 
 class VitaminsViewSet(viewsets.ModelViewSet):
@@ -169,6 +229,26 @@ class VitaminsViewSet(viewsets.ModelViewSet):
     serializer_class = VitaminsSerializer
 
 
+class VitaminsDetailAPIVIew(generics.RetrieveAPIView):
+    queryset = Vitamins.objects.all()
+    serializer_class = VitaminsCardSerializer
+
+
 class PharmaceuticalViewSet(viewsets.ModelViewSet):
     queryset = Pharmaceutical.objects.all()
     serializer_class = PharmaceuticalSerializer
+
+
+class PharmaceuticalDetailAPIVIew(generics.RetrieveAPIView):
+    queryset = Pharmaceutical.objects.all()
+    serializer_class = PharmaceuticalCardSerializer
+
+
+class CategoryListAPIView(generics.ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+
+class CategoryRetrieveAPIView(generics.RetrieveAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategoryDetailSerializer
