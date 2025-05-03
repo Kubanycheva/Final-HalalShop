@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.urls import reverse
 from django_rest_passwordreset.models import ResetPasswordToken
 from rest_framework import serializers
@@ -56,7 +58,7 @@ class VerifyResetCodeSerializer(serializers.Serializer):
         user.save()
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer): # Регистрация для обычных пользователей
     class Meta:
         model = UserProfile
         fields = ('email', 'password', 'phone_number',
@@ -64,23 +66,24 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
+        # validated_data['role'] = 'User' (with role)
         user = UserProfile.objects.create_user(**validated_data)
         return user
 
     def to_representation(self, instance):
         refresh = RefreshToken.for_user(instance)
+        access_token = str(refresh.access_token)
+        refresh_token = str(refresh)
+        access_token_expiration = datetime.fromtimestamp(refresh.access_token['exp']).isoformat()
         return {
-            'user': {
-                'username': instance.username,
-                'email': instance.email,
-            },
-            'access': str(refresh.access_token),
-            'refresh': str(refresh),
+            'access_token': access_token,
+            'refresh_token': refresh_token,
+            'access_token_expiration': access_token_expiration,
         }
 
 
-class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField()
+class UserLoginSerializer(serializers.Serializer):
+    email = serializers.CharField()
     password = serializers.CharField(write_only=True)
 
     def validate(self, data):
@@ -89,6 +92,32 @@ class LoginSerializer(serializers.Serializer):
             return user
         raise serializers.ValidationError('Неверные учетные данные')
 
+    def to_representation(self, instance):
+        refresh = RefreshToken.for_user(instance)
+        access_token = str(refresh.access_token)
+        refresh_token = str(refresh)
+        access_token_expiration = datetime.fromtimestamp(refresh.access_token['exp']).isoformat()
+        return {
+            'access_token': access_token,
+            'refresh_token': refresh_token,
+            'access_token_expiration': access_token_expiration,
+        }
+
+
+class UserLogoutSerializer(serializers.Serializer):
+    refresh_token = serializers.CharField()
+
+    def validate(self, attrs):
+        refresh_token = attrs.get('refresh_token')
+        if not refresh_token:
+            raise serializers.ValidationError('Refresh токен не предоставлен.')
+        try:
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+        except TokenError as e:
+            raise serializers.ValidationError('Недействительный токен.')
+
+        return attrs
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -227,7 +256,7 @@ class DrinkProductSerializer(serializers.ModelSerializer):
 class DrinkProductCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = DrinkProduct
-        fields = ['id', 'drink_name', 'image', 'price', 'weight']
+        fields = ['id', 'drink_name', 'image', 'price']
 
 
 class BabyProductSerializer(serializers.ModelSerializer):
@@ -239,7 +268,7 @@ class BabyProductSerializer(serializers.ModelSerializer):
 class BabyProductCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = BabyProduct
-        fields = ['id', 'product_name', 'weight', 'price', 'image']
+        fields = ['id', 'product_name', 'price', 'image']
 
 
 class HomeProductSerializer(serializers.ModelSerializer):
@@ -251,7 +280,7 @@ class HomeProductSerializer(serializers.ModelSerializer):
 class HomeProductCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = HomeProduct
-        fields = ['id', 'home_name', 'weight', 'price', 'image']
+        fields = ['id', 'home_name', 'price', 'image']
 
 
 class HealthBeautySerializer(serializers.ModelSerializer):
@@ -275,7 +304,7 @@ class VitaminsSerializer(serializers.ModelSerializer):
 class VitaminsCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vitamins
-        fields = ['id', 'product_name', 'weight', 'price', 'image']
+        fields = ['id', 'product_name', 'price', 'image']
 
 
 class PharmaceuticalSerializer(serializers.ModelSerializer):
@@ -287,7 +316,7 @@ class PharmaceuticalSerializer(serializers.ModelSerializer):
 class PharmaceuticalCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pharmaceutical
-        fields = ['id', 'product_name', 'weight', 'price', 'image']
+        fields = ['id', 'product_name', 'price', 'image']
 
 
 class CategorySerializer(serializers.ModelSerializer):
