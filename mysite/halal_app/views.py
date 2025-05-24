@@ -46,7 +46,7 @@ def change_password(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class UserRegisterView(generics.CreateAPIView): # Регистрация для обычных пользователей
+class UserRegisterView(generics.CreateAPIView):
     serializer_class = UserSerializer
 
     def create(self, request, *args, **kwargs):
@@ -70,6 +70,7 @@ class UserLoginView(TokenObtainPairView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+
 class UserLogoutView(APIView):
     @swagger_auto_schema(
         request_body=openapi.Schema(
@@ -85,6 +86,7 @@ class UserLogoutView(APIView):
         if serializer.is_valid():
             return Response({'detail': 'Вы успешно вышли.'}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class UserProfileViewSet(viewsets.ModelViewSet):
