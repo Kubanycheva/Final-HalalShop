@@ -29,6 +29,8 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
 class UserProfile(AbstractUser):
     phone_number = PhoneNumberField()
     email = models.EmailField(unique=True)
+    avatar = models.ImageField(upload_to="avatar", null=True, blank=True)
+
     def __str__(self):
         return self.username
 

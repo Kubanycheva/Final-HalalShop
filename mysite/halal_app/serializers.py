@@ -149,6 +149,12 @@ class MeatsProductCardSerializer(serializers.ModelSerializer):
         fields = ['id', 'meets_name', 'price', 'weight' ]
 
 
+class MeatsProductCardDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MeatsProduct
+        fields = ['id', 'meets_name', 'price', 'weight', 'expiration_period']
+
+
 class BirdProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = BirdProduct
@@ -158,9 +164,15 @@ class BirdProductSerializer(serializers.ModelSerializer):
 class BirdProductCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = BirdProduct
-        fields = ['id', 'bird_name', 'weight',
+        fields = ['id', 'bird_name',
                   'price', 'image']
 
+
+class BirdProductCardDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BirdProduct
+        fields = ['id', 'bird_name',
+                  'price', 'image', 'expiration_period']
 
 class FishProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -171,9 +183,15 @@ class FishProductSerializer(serializers.ModelSerializer):
 class FishProductCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = FishProduct
-        fields = ['id', 'fish_name', 'weight',
+        fields = ['id', 'fish_name',
                    'price', 'image']
 
+
+class FishProductCardDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FishProduct
+        fields = ['id', 'fish_name', 'weight',
+                   'price', 'image', 'expiration_period']
 
 class FrozenProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -185,6 +203,12 @@ class FrozenProductCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = FrozenProduct
         fields = ['id', 'frozen_name', 'image', 'price', 'weight']
+
+
+class FrozenProductCardDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FrozenProduct
+        fields = ['id', 'frozen_name', 'image', 'price', 'weight', 'description']
 
 
 class DairySerializer(serializers.ModelSerializer):
@@ -199,6 +223,12 @@ class DairyCardSerializer(serializers.ModelSerializer):
         fields = ['id', 'dairy_name', 'image', 'price', 'weight']
 
 
+class DairyCardDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Dairy
+        fields = ['id', 'dairy_name', 'image', 'price', 'weight', 'description']
+
+
 class BakeryProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = BakeryProduct
@@ -209,6 +239,11 @@ class BakeryProductCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = BakeryProduct
         fields = ['id', 'bakery_name', 'image', 'price', 'weight']
+
+class BakeryProductCardDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BakeryProduct
+        fields = ['id', 'bakery_name', 'image', 'price', 'weight', 'description']
 
 
 class ConfectioneryProductSerializer(serializers.ModelSerializer):
@@ -223,6 +258,12 @@ class ConfectioneryProductCardSerializer(serializers.ModelSerializer):
         fields = ['id', 'product_name', 'image', 'price', 'weight']
 
 
+class ConfectioneryProductCardDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ConfectioneryProduct
+        fields = ['id', 'product_name', 'image', 'price', 'weight', 'description']
+
+
 class ReadyMealSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReadyMeal
@@ -233,6 +274,12 @@ class ReadyMealCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReadyMeal
         fields = ['id', 'meal_name', 'image', 'price', 'weight']
+
+
+class ReadyMealCardDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReadyMeal
+        fields = ['id', 'meal_name', 'image', 'price', 'weight', 'description']
 
 
 class GrocerProductSerializer(serializers.ModelSerializer):
@@ -246,6 +293,10 @@ class GrocerProductCardSerializer(serializers.ModelSerializer):
         model = GrocerProduct
         fields = ['id', 'grocer_name', 'image', 'price', 'weight']
 
+class GrocerProductCardDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GrocerProduct
+        fields = ['id', 'grocer_name', 'image', 'price', 'weight', 'description']
 
 class DrinkProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -257,6 +308,12 @@ class DrinkProductCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = DrinkProduct
         fields = ['id', 'drink_name', 'image', 'price']
+
+
+class DrinkProductCardDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DrinkProduct
+        fields = ['id', 'drink_name', 'image', 'price', 'description']
 
 
 class BabyProductSerializer(serializers.ModelSerializer):
@@ -271,6 +328,11 @@ class BabyProductCardSerializer(serializers.ModelSerializer):
         fields = ['id', 'product_name', 'price', 'image']
 
 
+class BabyProductCardDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BabyProduct
+        fields = ['id', 'product_name', 'price', 'image', 'description']
+
 class HomeProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = HomeProduct
@@ -283,6 +345,12 @@ class HomeProductCardSerializer(serializers.ModelSerializer):
         fields = ['id', 'home_name', 'price', 'image']
 
 
+class HomeProductCardDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HomeProduct
+        fields = ['id', 'home_name', 'price', 'image', 'description']
+
+
 class HealthBeautySerializer(serializers.ModelSerializer):
     class Meta:
         model = HealthBeauty
@@ -292,7 +360,14 @@ class HealthBeautySerializer(serializers.ModelSerializer):
 class HealthBeautyCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = HealthBeauty
-        fields = ['id', 'product_name', 'weight', 'price', 'image']
+        fields = ['id', 'product_name', 'price', 'image']
+
+
+class HealthBeautyCardDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HealthBeauty
+        fields = ['id', 'product_name', 'price', 'image', 'description']
+
 
 
 class VitaminsSerializer(serializers.ModelSerializer):
@@ -305,6 +380,11 @@ class VitaminsCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vitamins
         fields = ['id', 'product_name', 'price', 'image']
+
+class VitaminsCardDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vitamins
+        fields = ['id', 'product_name', 'price', 'image', 'description']
 
 
 class PharmaceuticalSerializer(serializers.ModelSerializer):
@@ -319,20 +399,18 @@ class PharmaceuticalCardSerializer(serializers.ModelSerializer):
         fields = ['id', 'product_name', 'price', 'image']
 
 
+class PharmaceuticalCardDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Pharmaceutical
+        fields = ['id', 'product_name', 'price', 'image', 'description']
+
+
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ['id', 'category_name']
 
-
-class CategoryDetailSerializer(serializers.ModelSerializer):
-    baby_category = BabyProductSerializer(many=True, read_only=True)
-    category_meats = MeatsProductSerializer(many=True, read_only=True)
-    bird_eggs = BirdProductSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Category
-        fields = ['category_name', 'baby_category', 'category_meats', 'bird_eggs']
 
 
 
