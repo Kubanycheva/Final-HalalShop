@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'halal_app',
+    'accounts',
     "phonenumber_field",
     'drf_yasg',
     'rest_framework_simplejwt',
@@ -142,7 +143,7 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'halal_app.UserProfile'
+AUTH_USER_MODEL = 'accounts.UserProfile'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
