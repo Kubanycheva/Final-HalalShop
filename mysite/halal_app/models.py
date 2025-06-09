@@ -1,31 +1,101 @@
-from django.db import models
 
+
+
+# class MeatsProduct(models.Model):
+#     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='category_meats')
+#     meets_name = models.CharField(max_length=32, verbose_name='название')
+#     price = models.PositiveIntegerField(default=0)
+#     expiration_period = models.IntegerField(default=24, verbose_name='срок годности')
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     weight = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Вес продукта (в кг)')
+#     expiration_period = models.IntegerField(default=10, verbose_name='срок годности в днях')
+#     composition = models.TextField(verbose_name='состав')
+#     storage_condition = models.TextField(verbose_name='условия хранение')
+#     packaging = models.TextField(verbose_name='упаковка')
+#     equipment = models.TextField(null=True, blank=True, verbose_name='коплектация')
+#     image = models.ImageField(upload_to='meats_images/', null=True, blank=True)
+
+    #
+    # class Meta:
+    #     verbose_name_plural = 'Мясные продукты'
+
+
+from django.db import models
+from django.contrib.auth.models import User
+from accounts.models import Salesman, UserProfile
 
 class Category(models.Model):
-    category_name = models.CharField(max_length=32, unique=True)
+    category_name = models.CharField(max_length=100)
+    parent = models.ForeignKey("self", null=True, blank=True, on_delete=models.CASCADE, related_name="subcategories")
+    category_image = models.ImageField(upload_to='category_images/')
 
     def __str__(self):
         return self.category_name
 
-    class Meta:
-        verbose_name_plural = 'Категория'
+class Brand(models.Model):
+    brand_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.brand_name
 
 
-class MeatsProduct(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='category_meats')
-    meets_name = models.CharField(max_length=32, verbose_name='название')
-    price = models.PositiveIntegerField(default=0)
-    expiration_period = models.IntegerField(default=24, verbose_name='срок годности')
+class Product(models.Model):
+    product_name = models.CharField(max_length=255)
+    description = models.TextField()
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, null=True)
+    expiration_period = models.PositiveIntegerField(default=12, verbose_name='срок годности')
+    weight = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Вес продукта (в кг)', null=True, blank=True)
+    composition = models.TextField(verbose_name='состав', null=True, blank=True)
+    storage_condition = models.TextField(verbose_name='условия хранение', null=True, blank=True)
+    #     packaging = models.TextField(verbose_name='упаковка')
+    equipment = models.TextField(null=True, blank=True, verbose_name='комплектация')
+    seller = models.ForeignKey(Salesman, on_delete=models.CASCADE)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity = models.PositiveIntegerField(verbose_name='количество', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    weight = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Вес продукта (в кг)')
-    expiration_period = models.IntegerField(default=10, verbose_name='срок годности в днях')
-    composition = models.TextField(verbose_name='состав')
-    storage_condition = models.TextField(verbose_name='условия хранение')
-    packaging = models.TextField(verbose_name='упаковка')
-    equipment = models.TextField(null=True, blank=True, verbose_name='коплектация')
-    image = models.ImageField(upload_to='meats_images/', null=True, blank=True)
+
+    def __str__(self):
+        return self.product_name
 
 
-    class Meta:
-        verbose_name_plural = 'Мясные продукты'
+class ProductImage(models.Model):
+    product = models.ForeignKey(Product, related_name="images", on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="product_images/")
 
+
+class Customer(models.Model):
+    user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=20, blank=True)
+    address = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+
+class Order(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=50, choices=[
+        ('pending', 'В ожидании'),
+        ('shipped', 'Отправлен'),
+        ('delivered', 'Доставлен'),
+        ('cancelled', 'Отменён')
+    ], default='pending')
+
+    def __str__(self):
+        return f"Order #{self.id}"
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, related_name="items", on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    quantity = models.PositiveIntegerField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+
+
+class Review(models.Model):
+    product = models.ForeignKey(Product, related_name="reviews", on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    rating = models.PositiveSmallIntegerField(choices=[(i, str(i)) for i in range(1, 6)])
+    comment = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
