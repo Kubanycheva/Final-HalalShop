@@ -32,7 +32,7 @@ class UserProfile(AbstractUser):
     avatar = models.ImageField(upload_to="avatar", null=True, blank=True)
 
     def __str__(self):
-        return self.username
+        return f'{self.username}'
 
     class Meta:
         verbose_name_plural = 'Администратор'
@@ -47,17 +47,16 @@ class Salesman(UserProfile):
     image = models.ImageField(upload_to='marketer_images/', null=True, blank=True)
 
     def __str__(self):
-        return self.username
+        return f'{self.username}'
 
     class Meta:
         verbose_name_plural = 'Продавец'
 
 
 class Buyer(UserProfile):
-    image = models.ImageField(upload_to='buyer_images/', null=True, blank=True)
-
+    pass
     def __str__(self):
-        return self.username
+        return f'{self.username}'
 
     class Meta:
         verbose_name_plural = 'Покупатель'
