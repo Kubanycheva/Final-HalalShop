@@ -91,4 +91,4 @@ class CartItemStatusListApiView(generics.ListAPIView):
 
 class CartItemStatusDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = CartItem.objects.filter(status='в пути')
-    serializer_class = CartItemDetailAPIView
+    serializer_class = CartItemListSerializer
