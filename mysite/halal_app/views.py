@@ -34,7 +34,3 @@ class ProductDetailView(generics.RetrieveAPIView):
 
 
 
-#
-# class MeatsProductViewSet(generics.ListAPIView): # Мясные продукты
-#     queryset = MeatsProduct.objects.all()
-#     serializer_class = MeatsProductSerializer
