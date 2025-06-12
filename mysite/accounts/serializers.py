@@ -135,3 +135,9 @@ class BuyerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Buyer
         fields = ['id', 'username', 'phone_number']
+
+
+class BuyerForCartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Buyer
+        fields = ['first_name', 'last_name']

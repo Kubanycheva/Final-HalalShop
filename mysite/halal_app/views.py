@@ -1,10 +1,17 @@
-from rest_framework import generics
-from .models import Category, Product
+from rest_framework import generics, viewsets
+from .models import Category, Product, Save, SaveItem, Cart, CartItem, Customer
 from .serializers import (
     CategoryDetailSerializer,
     ProductListSerializer,
     ProductDetailSerializer,
-    CategorySimpleSerializer
+    CategorySimpleSerializer,
+    SaveSerializer,
+    SaveItemSerializer,
+    SaveItemListSerializer,
+    CartSerializer,
+    CartItemSerializer,
+    CartItemListSerializer,
+    CustomerSerializer
 )
 
 
@@ -34,3 +41,60 @@ class ProductDetailView(generics.RetrieveAPIView):
 
 
 
+#
+# class MeatsProductViewSet(generics.ListAPIView): # Мясные продукты
+#     queryset = MeatsProduct.objects.all()
+#     serializer_class = MeatsProductSerializer
+
+
+class SaveViewSet(viewsets.ModelViewSet):
+    queryset = Save.objects.all()
+    serializer_class = SaveSerializer
+
+
+class SaveItemCreateApiView(generics.CreateAPIView):
+    serializer_class = SaveItemSerializer
+
+
+class SaveItemListApiView(generics.ListAPIView):
+    queryset = SaveItem.objects.all()
+    serializer_class = SaveItemListSerializer
+
+
+class SaveItemDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = SaveItem.objects.all()
+    serializer_class = SaveItemListSerializer
+
+
+class CartViewSet(viewsets.ModelViewSet):
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer
+
+
+class CartItemCreateAPIView(generics.CreateAPIView):
+    serializer_class = CartItemSerializer
+
+
+class CartItemListApiView(generics.ListAPIView):
+    queryset = CartItem.objects.all()
+    serializer_class = CartItemListSerializer
+
+
+class CartItemDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = CartItem.objects.all()
+    serializer_class = CartItemListSerializer
+
+
+class CartItemStatusListApiView(generics.ListAPIView):
+    queryset = CartItem.objects.filter(status='в пути')
+    serializer_class = CartItemListSerializer
+
+
+class CartItemStatusDetailApiView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = CartItem.objects.filter(status='в пути')
+    serializer_class = CartItemDetailAPIView
+
+
+class CustomerListApiView(generics.ListAPIView):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
