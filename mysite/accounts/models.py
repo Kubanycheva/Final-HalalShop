@@ -6,7 +6,6 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
 
-
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
     email_plaintext_message = "{}?token={}".format(
@@ -42,12 +41,12 @@ class UserProfile(AbstractUser):
 
 
 class Salesman(UserProfile):
-    created_date = models.DateTimeField(auto_now=True)
-    created_moth = models.DateField(auto_now_add=True)
+    name_shop = models.CharField(max_length=120, null=True, blank=True)
+    categories = models.ManyToManyField('halal_app.Category')
     image = models.ImageField(upload_to='marketer_images/', null=True, blank=True)
 
     def __str__(self):
-        return f'{self.username}'
+        return f'{self.name_shop}'
 
     class Meta:
         verbose_name_plural = 'Продавец'

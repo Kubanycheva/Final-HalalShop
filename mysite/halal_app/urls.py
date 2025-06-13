@@ -16,7 +16,6 @@ from .views import (
     CartItemDetailAPIView,
     CartItemStatusListApiView,
     CartItemStatusDetailApiView,
-    CustomerListApiView
 )
 
 router = routers.DefaultRouter()
@@ -43,7 +42,7 @@ urlpatterns = [
 
     path('cart_status/', CartItemStatusListApiView.as_view(), name='cart_current_status'),
     path('cart_status/<int:pk>/', CartItemStatusDetailApiView.as_view(), name='cart_current_status_detail'),
-    path('customer', CustomerListApiView.as_view(), name='customer-list'),
+    # path('customer', CustomerListApiView.as_view(), name='customer-list'),
 
 ]
 

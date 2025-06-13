@@ -11,7 +11,6 @@ from .serializers import (
     CartSerializer,
     CartItemSerializer,
     CartItemListSerializer,
-    CustomerSerializer
 )
 
 
@@ -65,7 +64,6 @@ class SaveItemDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = SaveItem.objects.all()
     serializer_class = SaveItemListSerializer
 
-
 class CartViewSet(viewsets.ModelViewSet):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
@@ -90,11 +88,11 @@ class CartItemStatusListApiView(generics.ListAPIView):
     serializer_class = CartItemListSerializer
 
 
+
 class CartItemStatusDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = CartItem.objects.filter(status='в пути')
-    serializer_class = CartItemDetailAPIView
+    serializer_class = CartItemListSerializer
 
-
-class CustomerListApiView(generics.ListAPIView):
-    queryset = Customer.objects.all()
-    serializer_class = CustomerSerializer
+# class CustomerListApiView(generics.ListAPIView):
+#     queryset = Customer.objects.all()
+#     serializer_class = CustomerSerializer

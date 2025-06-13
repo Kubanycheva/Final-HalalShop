@@ -119,6 +119,70 @@ class UserLogoutSerializer(serializers.Serializer):
 
         return attrs
 
+
+class SalesmanRegisterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Salesman
+        fields = ('name_shop', 'categories', 'email', 'phone_number',
+                  )
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        # validated_data['role'] = 'User' (with role)
+        user = Salesman.objects.create_user(**validated_data)
+        return user
+
+    def to_representation(self, instance):
+        refresh = RefreshToken.for_user(instance)
+        access_token = str(refresh.access_token)
+        refresh_token = str(refresh)
+        access_token_expiration = datetime.fromtimestamp(refresh.access_token['exp']).isoformat()
+        return {
+            'access_token': access_token,
+            'refresh_token': refresh_token,
+            'access_token_expiration': access_token_expiration,
+        }
+
+
+class SalesmanLoginSerializer(serializers.Serializer):
+    email = serializers.CharField()
+    password = serializers.CharField(write_only=True)
+
+    def validate(self, data):
+        user = authenticate(**data)
+        if user and user.is_active:
+            return user
+        raise serializers.ValidationError('Неверные учетные данные')
+
+    def to_representation(self, instance):
+        refresh = RefreshToken.for_user(instance)
+        access_token = str(refresh.access_token)
+        refresh_token = str(refresh)
+        access_token_expiration = datetime.fromtimestamp(refresh.access_token['exp']).isoformat()
+        return {
+            'access_token': access_token,
+            'refresh_token': refresh_token,
+            'access_token_expiration': access_token_expiration,
+        }
+
+
+class SalesmanLogoutSerializer(serializers.Serializer):
+    refresh_token = serializers.CharField()
+
+    def validate(self, attrs):
+        refresh_token = attrs.get('refresh_token')
+        if not refresh_token:
+            raise serializers.ValidationError('Refresh токен не предоставлен.')
+        try:
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+        except TokenError as e:
+            raise serializers.ValidationError('Недействительный токен.')
+
+        return attrs
+
+
+
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile

@@ -95,10 +95,10 @@ class CartSerializer(serializers.ModelSerializer):
     def get_total_product_count(self, obj):
         return obj.get_total_product_count()
 
-class CustomerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Customer
-        fields = ['user', 'phone', 'address']
-
+# class CustomerSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Customer
+#         fields = ['user', 'phone', 'address']
+#
 
 

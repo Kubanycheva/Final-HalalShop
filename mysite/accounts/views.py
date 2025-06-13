@@ -90,6 +90,48 @@ class UserLogoutView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class SalesmanRegisterView(generics.CreateAPIView):
+    serializer_class = SalesmanSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class SalesmanLoginView(TokenObtainPairView):
+    serializer_class = SalesmanLoginSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        try:
+            serializer.is_valid(raise_exception=True)
+        except Exception:
+            return Response({'detail': 'Неверные учетные данные'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        user = serializer.validated_data
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+class SalesmanLogoutView(APIView):
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'refresh_token': openapi.Schema(type=openapi.TYPE_STRING, description='refresh_token'),
+            },
+            required=['refresh_token']
+        ),
+    )
+    def post(self, request):
+        serializer = UserLogoutSerializer(data=request.data)
+        if serializer.is_valid():
+            return Response({'detail': 'Вы успешно вышли.'}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 
 class UserProfileViewSet(viewsets.ModelViewSet):
