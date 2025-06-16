@@ -1,3 +1,4 @@
+from django.template.defaultfilters import first
 from rest_framework import serializers
 from .models import Category, Brand, Product, ProductImage, Customer, Order, OrderItem, Review
 
@@ -35,8 +36,14 @@ class ProductListSerializer(serializers.ModelSerializer):
         fields = ['id', 'product_name', 'price', 'weight', 'images']
 
 
+    def get_image(self, obj):
+        image = obj.images.first()
+        return image.image.url if image and image.image else None
+
+
 class ProductDetailSerializer(serializers.ModelSerializer):
     category = serializers.StringRelatedField()
+    images = ProductImageSerializer(read_only=True, many=True)
 
     class Meta:
         model = Product

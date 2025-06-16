@@ -1,25 +1,3 @@
-
-
-
-# class MeatsProduct(models.Model):
-#     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='category_meats')
-#     meets_name = models.CharField(max_length=32, verbose_name='название')
-#     price = models.PositiveIntegerField(default=0)
-#     expiration_period = models.IntegerField(default=24, verbose_name='срок годности')
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     weight = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Вес продукта (в кг)')
-#     expiration_period = models.IntegerField(default=10, verbose_name='срок годности в днях')
-#     composition = models.TextField(verbose_name='состав')
-#     storage_condition = models.TextField(verbose_name='условия хранение')
-#     packaging = models.TextField(verbose_name='упаковка')
-#     equipment = models.TextField(null=True, blank=True, verbose_name='коплектация')
-#     image = models.ImageField(upload_to='meats_images/', null=True, blank=True)
-
-    #
-    # class Meta:
-    #     verbose_name_plural = 'Мясные продукты'
-
-
 from django.db import models
 from django.contrib.auth.models import User
 from accounts.models import Salesman, UserProfile
@@ -41,10 +19,10 @@ class Brand(models.Model):
 
 class Product(models.Model):
     product_name = models.CharField(max_length=255)
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, null=True)
-    expiration_period = models.PositiveIntegerField(default=12, verbose_name='срок годности')
+    expiration_period = models.PositiveIntegerField(default=12, verbose_name='срок годности', null=True, blank=True)
     weight = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Вес продукта (в кг)', null=True, blank=True)
     composition = models.TextField(verbose_name='состав', null=True, blank=True)
     storage_condition = models.TextField(verbose_name='условия хранение', null=True, blank=True)

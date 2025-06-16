@@ -26,15 +26,14 @@ class ProductListByCategoryView(generics.ListAPIView):
         category_id = self.kwargs['category_id']
         return Product.objects.filter(category_id=category_id)
 
+    # def get_serializer_class(self):
+    #     if self.request.parser_context['view'].action == 'retrieve':
+    #         return ProductDetailSerializer
+    #     return ProductListSerializer
+
 
 class ProductDetailView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductDetailSerializer
     lookup_field = 'pk'
 
-
-
-#
-# class MeatsProductViewSet(generics.ListAPIView): # Мясные продукты
-#     queryset = MeatsProduct.objects.all()
-#     serializer_class = MeatsProductSerializer
