@@ -149,5 +149,8 @@ class CartItem(models.Model):
     )
     status = models.CharField(max_length=34, choices=STATUS_CHOICES)
 
+    def get_total_price(self):
+        return self.items.price * self.quantity
+
     def __str__(self):
         return f'{self.cart}, {self.items}, {self.quantity}'
