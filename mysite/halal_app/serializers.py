@@ -12,7 +12,7 @@ class RecursiveCategorySerializer(serializers.Serializer):
 class CategorySimpleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['id', 'category_name']
+        fields = ['id', 'category_name', 'category_image']
 
 
 class CategoryDetailSerializer(serializers.ModelSerializer):
@@ -20,7 +20,7 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ['id', 'category_name', 'subcategories']
+        fields = ['id', 'category_name', 'category_image', 'subcategories']
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
